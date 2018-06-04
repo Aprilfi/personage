@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/ftl/email.ftl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/properties/system.properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/properties/userValidationMessages.properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/spring/application-email.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/spring/application-validation.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/popup/bootstrap.min.css" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/popup/custom.css" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/popup/iosOverlay.css" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/popup/prettify.css" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/styles.css" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/img/bg.jpg" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/img/check.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/img/cross.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/index.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/popup/custom.js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/popup/iosOverlay.js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/popup/jquery.min.js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/popup/modernizr-2.0.6.min.js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/popup/prettify.js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/popup/spin.min.js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/popup.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/video/moving-cloud.mp4" charset="GBK" />
+  </component>
+</project>
