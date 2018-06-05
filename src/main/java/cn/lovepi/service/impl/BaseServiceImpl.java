@@ -1,9 +1,8 @@
 package cn.lovepi.service.impl;
 
 import cn.lovepi.dao.BaseMapper;
-import cn.lovepi.dao.TableUserMapper;
+import cn.lovepi.dao.UserMapper;
 import cn.lovepi.service.BaseService;
-import cn.lovepi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -20,7 +19,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
     protected BaseMapper<T> baseMapper;
 
     @Autowired
-    protected TableUserMapper tableUserMapper;
+    protected UserMapper userMapper;
 
     @PostConstruct
     private void initBaseMapper() throws Exception{
@@ -36,6 +35,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
          * *************************
          */
         String localField = clazz.getSimpleName().substring(0,1).toLowerCase()+clazz.getSimpleName().substring(1)+"Mapper";
+        System.out.println("localField:" + localField);
 
         //通过反射来获取成员变量的值
         Field field=this.getClass().getSuperclass().getDeclaredField(localField);

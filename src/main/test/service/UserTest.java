@@ -20,7 +20,14 @@ public class UserTest {
     public void test() {
 
         BasicConfigurator.configure();
-        User user = userService.selectByPrimaryKey("1100");
+        User user = new User();
+        user.setUserEmail("123123@qq.com");
+        user.setUserPassword("123123");
+        user.setUserNickname("april");
+
+        userService.encryptedPassword(user);
+
+        userService.insert(user);
 
     }
 

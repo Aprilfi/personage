@@ -21,7 +21,7 @@ CREATE TABLE `table_comment` (
 # Data for table "table_comment"
 #
 
-INSERT INTO `table_comment` VALUES ('1100','2200','don\'t waste my time','2017-08-09 20:12:10');
+INSERT INTO `table_comment` VALUES ('1100','2200','dont waste my time','2017-08-09 20:12:10');
 
 #
 # Structure for table "table_memo"
@@ -49,7 +49,7 @@ CREATE TABLE `table_memo` (
 
 DROP TABLE IF EXISTS `table_user`;
 CREATE TABLE `table_user` (
-  `user_id` varchar(50) NOT NULL COMMENT '用户Id',
+  `user_id` varchar(50) NOT  NULL COMMENT '用户Id',
   `user_nickname` varchar(20) NOT NULL COMMENT '用户昵称',
   `user_password` varchar(32) NOT NULL COMMENT '用户密码',
   `user_email` varchar(50) NOT NULL COMMENT '用户邮箱\r\n	',
@@ -59,6 +59,8 @@ CREATE TABLE `table_user` (
   `token_exptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '用于判断邮箱链接有效时间',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO table_user (user_id, user_nickname, user_password, user_email, acti_state) VALUES ('1100','april','123456','1609938729@qq.com',0);
 
 #
 # Data for table "table_user"

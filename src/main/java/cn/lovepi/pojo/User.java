@@ -19,7 +19,7 @@ public class User implements Serializable {
 
 
     @NotNull(message="{user.not.null}")
-    @Size(min=2,max=15,message="{user.userNickname.length.error}")
+    @Size(min=4,max=12,message="{user.userNickname.length.error}")
     private String userNickname;
 
     @NotNull(message="{user.not.null}")
@@ -104,5 +104,19 @@ public class User implements Serializable {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId='" + userId + '\'' +
+                ", userNickname='" + userNickname + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", actiState=" + actiState +
+                ", actiCode='" + actiCode + '\'' +
+                ", tokenExptime=" + tokenExptime +
+                ", salt='" + salt + '\'' +
+                '}';
     }
 }

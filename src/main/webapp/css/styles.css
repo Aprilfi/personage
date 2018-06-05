@@ -108,9 +108,11 @@ input, button {
 .login-form .group .label{
 	color:whitesmoke;
 	font-size:12px;
+	/* ÉèÖÃ±³¾°°ëÍ¸Ã÷ºÚÉ« */
+	background: rgba(164, 168, 187, 0.8);
 }
 .login-form .group .button{
-	background:#1161ee;
+	background: #1161ee;
 }
 .login-form .group label .icon{
 	width:15px;

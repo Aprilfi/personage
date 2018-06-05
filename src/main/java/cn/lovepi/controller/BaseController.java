@@ -15,6 +15,9 @@ public class BaseController {
     @Autowired
     protected EmailService emailService;
 
+    //@Autowired
+    //protected EmailService emailService;
+
     /**
      * @return 返回配置项目的路径：http://localhost:8080/personage
      */

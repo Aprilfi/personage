@@ -44,7 +44,6 @@ public class EmailService {
 
         String returnText = createSendData(user, content,url);
 
-        // TODO 问题是出在发送邮件很慢 6086ms，解析freemarker才60ms 待优化
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
         messageHelper.setFrom(simpleMailMessage.getFrom());
@@ -77,7 +76,7 @@ public class EmailService {
         map.put("encodeUrl", Base64Util.encodeData(url));
 
         String returnText = new FreeMarkerUtils().returnText("email.ftl", map);
-
+        System.out.println(returnText);
         return returnText;
     }
 
