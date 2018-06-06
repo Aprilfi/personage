@@ -1,5 +1,7 @@
 package cn.lovepi.pojo;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -12,8 +14,13 @@ import java.io.Serializable;
 public class ActiveUser implements Serializable {
     private String userId;
     private String userEmail;
+
+    @NotNull(message="{user.not.null}")
+    @Size(min=4,max=12,message="{user.userNickname.length.error}")
     private String userNickname;
 
+    @NotNull(message="{user.not.null}")
+    @Size(min=6,max=12,message="{user.userPassword.length.error}")
     private String password;
 
     public String getPassword() {

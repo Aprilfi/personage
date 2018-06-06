@@ -2,9 +2,12 @@ package cn.lovepi.controller;
 
 import cn.lovepi.service.UserService;
 import cn.lovepi.service.impl.EmailService;
+import cn.lovepi.utils.FreeMarkerUtils;
 import cn.lovepi.utils.ReadPropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
+import java.util.Map;
 
 @Controller
 public class BaseController {
