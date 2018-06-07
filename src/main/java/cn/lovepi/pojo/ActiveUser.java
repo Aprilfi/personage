@@ -1,5 +1,7 @@
 package cn.lovepi.pojo;
 
+import org.hibernate.validator.constraints.Email;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -13,15 +15,28 @@ import java.io.Serializable;
  */
 public class ActiveUser implements Serializable {
     private String userId;
-    private String userEmail;
 
     @NotNull(message="{user.not.null}")
-    @Size(min=4,max=12,message="{user.userNickname.length.error}")
+    @Email(message="{user.userEmail.not.correct}")
+    private String userEmail;
+
+
     private String userNickname;
 
     @NotNull(message="{user.not.null}")
     @Size(min=6,max=12,message="{user.userPassword.length.error}")
     private String password;
+
+    @NotNull(message = "[user.not.null]")
+    private String captcha;
+
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
+    }
 
     public String getPassword() {
         return password;

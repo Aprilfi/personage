@@ -2,33 +2,53 @@ package cn.lovepi.controller;
 
 import cn.lovepi.pojo.ActiveUser;
 import cn.lovepi.pojo.User;
-import org.apache.commons.collections.map.HashedMap;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.omg.CORBA.UserException;
+import cn.lovepi.utils.Captcha;
+import cn.lovepi.utils.GifCaptcha;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.testng.mustache.Model;
 
-import javax.naming.Binding;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController {
 
+    /**
+     * 邮箱判断，如果存在让用户更换邮箱注册
+     * @param userEmail
+     * @param out
+     */
+    @RequestMapping("/validateEmail.do")
+    public void validateEmail(String userEmail, PrintWriter out) {
+        User user = userService.validateEmailExist(userEmail);
+
+        if(null != user && null != user.getUserEmail()) {
+            out.write("hasEmail");
+        }
+        out.write("noEmail");
+
+    }
+
+    /**
+     * 用户登陆：调用数据层进行账号密码判断
+     * @param activeUser
+     * @param bindingResult
+     * @return modelandview
+     */
     @RequestMapping(value = "/login.do")
-    public ModelAndView login(@Validated ActiveUser activeUser, BindingResult bindingResult) {
+    public ModelAndView login(@Validated ActiveUser activeUser, BindingResult bindingResult, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
 
         //如果参数不符合规则，返回错误信息
@@ -42,13 +62,24 @@ public class UserController extends BaseController {
             return modelAndView;
         }
 
-        User user1 = userService.selectByPrimaryKey(activeUser.getUserNickname());
-        if(user1 != null && user1.getUserNickname().equals(activeUser.getUserNickname())) {
+        User user1 = userService.validateEmailExist(activeUser.getUserEmail());
+        if(user1 != null && user1.getUserEmail().equals(activeUser.getUserEmail())) {
+            //将用户输入的密码与随机盐加密生成固定散列值
+            Md5Hash md5Hash = new Md5Hash(activeUser.getPassword(),user1.getSalt(),2);
+            //进行判断
+            if(md5Hash.toString().equals(user1.getUserPassword())) {
+                //进一步进行验证码判断
+                if(activeUser.getCaptcha().equals(request.getSession().getAttribute("captcha"))) {
+                    modelAndView.setViewName("page");
 
-            if(user1.getUserPassword().equals(activeUser.getPassword())) {
-                modelAndView.setViewName("page");
+                    return  modelAndView;
+                }
+                modelAndView.setViewName("error");
+                modelAndView.addObject("message", "验证码错误");
+
 
                 return  modelAndView;
+
             } else {
                 modelAndView.setViewName("error");
                 modelAndView.addObject("message", "用户名或密码错误");
@@ -63,10 +94,17 @@ public class UserController extends BaseController {
         return modelAndView;
     }
 
+    /**
+     * 用户注册：springvalidator进行后台数据过滤，向客户端返回激活账号的链接
+     * @param user
+     * @param bindingResult
+     * @return
+     * @throws Exception
+     */
     @ResponseBody
     @RequestMapping(value = "/register.do",method = RequestMethod.POST)
     public String register(@Validated User user, BindingResult bindingResult) throws Exception {
-        //如果参数不符合规则，返回错误信息
+        //        //如果参数不符合规则，返回错误信息
         List<ObjectError> allErrors = bindingResult.getAllErrors();
         if(allErrors != null && allErrors.size() > 0){
             /*测试语句*/
@@ -87,6 +125,12 @@ public class UserController extends BaseController {
         return emailAddress;
     }
 
+    /**
+     * 账号激活，判断注册时间与当前时间在进行账号激活
+     * @param userId
+     * @return
+     * @throws Exception
+     */
     @ResponseBody
     @RequestMapping(value = "activate.do", method = RequestMethod.GET)
     public ModelAndView activate(String userId) throws Exception {
@@ -116,5 +160,47 @@ public class UserController extends BaseController {
             return modelAndView;
         }
         return null;
+    }
+
+    /**
+     * 验证码测试
+     * @param request
+     * @param captcha
+     */
+    @RequestMapping(value= "/testcaptcha.do", method = RequestMethod.POST)
+    public void testcaptcha(HttpServletRequest request, String captcha) {
+        String newCaptcha = (String)request.getSession().getAttribute("captcha");
+
+        System.out.println(captcha);
+        System.out.println(newCaptcha);
+
+
+    }
+
+    /**
+     * 生成验证码
+     *
+     * @param response
+     */
+    @RequestMapping(value = "/getGifCode.do", method = RequestMethod.GET)
+    public void getGifCode(HttpServletResponse response, HttpServletRequest request) throws IOException {
+
+        response.setHeader("Pragma", "No-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
+        response.setContentType("image/gif");
+
+        // gif格式动画验证码 宽，高，位数。
+        Captcha captcha = new GifCaptcha(146, 42, 4);
+
+        /**
+         * 把验证码写到浏览器后才能知道验证码的数据，才能把数据装到session中，在后台会报出异常，我认为这样设计得不好。虽然不影响使用
+         * @author ：ozc
+         */
+        ServletOutputStream out = response.getOutputStream();
+        captcha.out(out);
+        request.getSession().setAttribute("captcha", captcha.text().toLowerCase());
+
+
     }
 }
