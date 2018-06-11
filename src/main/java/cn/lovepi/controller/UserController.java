@@ -26,7 +26,7 @@ import java.util.List;
 public class UserController extends BaseController {
 
     /**
-     * 邮箱判断，如果存在让用户更换邮箱注册
+     * 邮箱判断，如果存在让用户更换邮箱注册l
      * @param userEmail
      * @param out
      */
