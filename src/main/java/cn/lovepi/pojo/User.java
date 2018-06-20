@@ -17,7 +17,9 @@ import java.util.Date;
 public class User implements Serializable {
     private String userId;
 
-
+    /**
+     * 使用spring validator 后台数据过滤
+     */
     @NotNull(message="{user.not.null}")
     @Size(min=4,max=12,message="{user.userNickname.length.error}")
     private String userNickname;
